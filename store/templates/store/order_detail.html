@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% load store_extras %} {% block title %}Order #{{
-order.id }} — Verdant{% endblock %} {% block content %}
+{% extends "base.html" %} {% load store_extras %} {% block title %}Order #{{ order.id }} — Verdant{% endblock %} {% block content %}
 <div class="page-header">
   <div class="container">
     <h1>Order #{{ order.id }}</h1>
@@ -24,10 +23,7 @@ order.id }} — Verdant{% endblock %} {% block content %}
   <div class="pd-desc">
     <h3>Shipped to</h3>
     <p>
-      {{ order.full_name }}<br />{{ order.address_line1 }}{% if
-      order.address_line2 %}, {{ order.address_line2 }}{% endif %}<br />{{
-      order.city }}, {{ order.state }} {{ order.postal_code }}<br />{{
-      order.country }}<br />{{ order.phone }}
+      {{ order.full_name }}<br />{{ order.address_line1 }}{% if order.address_line2 %}, {{ order.address_line2 }}{% endif %}<br />{{ order.city }}, {{ order.state }} {{ order.postal_code }}<br />{{ order.country }}<br />{{ order.phone }}
     </p>
     <p class="helptext">Placed {{ order.placed_at|date:"M j, Y, g:i a" }}</p>
   </div>

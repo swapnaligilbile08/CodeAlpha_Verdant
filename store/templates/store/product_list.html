@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% load store_extras %} {% block title %}{% if
-active_category %}{{ active_category.name }}{% else %}All Plants{% endif %} —
+{% extends "base.html" %} {% load store_extras %} {% block title %}{% if active_category %}{{ active_category.name }}{% else %}All Plants{% endif %} —
 Verdant{% endblock %} {% block content %}
 <div class="page-header">
   <div class="container">
@@ -25,13 +24,7 @@ Verdant{% endblock %} {% block content %}
       {% for cat in categories %}
       <option
         value="{{ cat.slug }}"
-        {%
-        if
-        active_category.slug=""
-        ="cat.slug"
-        %}selected{%
-        endif
-        %}
+        {% if active_category.slug == cat.slug %}selected{% endif %}
       >
         {{ cat.name }}
       </option>
@@ -40,44 +33,23 @@ Verdant{% endblock %} {% block content %}
     <select name="sort" onchange="this.form.submit()">
       <option
         value="newest"
-        {%
-        if
-        sort=""
-        ="newest"
-        or
-        not
-        sort
-        %}selected{%
-        endif
-        %}
+        {% if sort == "newest" or not sort %}selected{% endif %}
       >
         Newest
       </option>
       <option
         value="price_asc"
-        {%
-        if
-        sort=""
-        ="price_asc"
-        %}selected{%
-        endif
-        %}
+        {% if sort == "price_asc" %}selected{% endif %}
       >
         Price: low to high
       </option>
       <option
         value="price_desc"
-        {%
-        if
-        sort=""
-        ="price_desc"
-        %}selected{%
-        endif
-        %}
+        {% if sort == "price_desc" %}selected{% endif %}
       >
         Price: high to low
       </option>
-      <option value="rating" {% if sort="" ="rating" %}selected{% endif %}>
+      <option value="rating" {% if sort == "rating" %}selected{% endif %}>
         Top rated
       </option>
     </select>
@@ -86,8 +58,7 @@ Verdant{% endblock %} {% block content %}
 
   {% if page_obj.object_list %}
   <div class="card-grid">
-    {% for product in page_obj %}{% include "store/_product_card.html" %}{%
-    endfor %}
+    {% for product in page_obj %}{% include "store/_product_card.html" %}{% endfor %}
   </div>
   {% else %}
   <div class="empty-state">
@@ -102,8 +73,7 @@ Verdant{% endblock %} {% block content %}
     {% if page_obj.has_previous %}<a
       href="?{% if query %}q={{ query }}&{% endif %}{% if active_category %}category={{ active_category.slug }}&{% endif %}{% if sort %}sort={{ sort }}&{% endif %}page={{ page_obj.previous_page_number }}"
       >Prev</a
-    >{% endif %} {% for num in page_obj.paginator.page_range %} {% if num ==
-    page_obj.number %}<span class="current">{{ num }}</span> {% else %}<a
+    >{% endif %} {% for num in page_obj.paginator.page_range %} {% if num == page_obj.number %}<span class="current">{{ num }}</span> {% else %}<a
       href="?{% if query %}q={{ query }}&{% endif %}{% if active_category %}category={{ active_category.slug }}&{% endif %}{% if sort %}sort={{ sort }}&{% endif %}page={{ num }}"
       >{{ num }}</a
     >{% endif %} {% endfor %} {% if page_obj.has_next %}<a

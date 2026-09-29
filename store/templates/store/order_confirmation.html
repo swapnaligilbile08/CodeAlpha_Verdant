@@ -23,10 +23,7 @@ Confirmed — Verdant{% endblock %} {% block content %}
   <div class="pd-desc">
     <h3>Shipping to</h3>
     <p>
-      {{ order.full_name }}<br />{{ order.address_line1 }}{% if
-      order.address_line2 %}, {{ order.address_line2 }}{% endif %}<br />{{
-      order.city }}, {{ order.state }} {{ order.postal_code }}<br />{{
-      order.country }}<br />{{ order.phone }}
+      {{ order.full_name }}<br />{{ order.address_line1 }}{% if order.address_line2 %}, {{ order.address_line2 }}{% endif %}<br />{{ order.city }}, {{ order.state }} {{ order.postal_code }}<br />{{ order.country }}<br />{{ order.phone }}
     </p>
   </div>
   <a href="{% url 'store:order_history' %}" class="btn btn-primary"

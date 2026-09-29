@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %}Log In — Verdant{% endblock %} {%
-block content %}
+{% extends "base.html" %} {% block title %}Log In — Verdant{% endblock %} {% block content %}
 <div class="container">
   <form method="post" class="form-card" id="login-form" autocomplete="off">
     {% csrf_token %} {% if next %}<input

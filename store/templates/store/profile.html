@@ -14,12 +14,10 @@ Profile — Verdant{% endblock %} {% block content %}
       {% csrf_token %}
       <div class="form-row-2" style="margin-top: 28px">
         <div class="field">
-          <label for="{{ form.first_name.id_for_label }}">First name</label>{{
-          form.first_name }}
+          <label for="{{ form.first_name.id_for_label }}">First name</label>{{ form.first_name }}
         </div>
         <div class="field">
-          <label for="{{ form.last_name.id_for_label }}">Last name</label>{{
-          form.last_name }}
+          <label for="{{ form.last_name.id_for_label }}">Last name</label>{{ form.last_name }}
         </div>
       </div>
       <div class="field">
@@ -38,18 +36,15 @@ Profile — Verdant{% endblock %} {% block content %}
           <label for="{{ form.city.id_for_label }}">City</label>{{ form.city }}
         </div>
         <div class="field">
-          <label for="{{ form.state.id_for_label }}">State</label>{{ form.state
-          }}
+          <label for="{{ form.state.id_for_label }}">State</label>{{ form.state }}
         </div>
       </div>
       <div class="form-row-2">
         <div class="field">
-          <label for="{{ form.postal_code.id_for_label }}">Postal code</label>{{
-          form.postal_code }}
+          <label for="{{ form.postal_code.id_for_label }}">Postal code</label>{{ form.postal_code }}
         </div>
         <div class="field">
-          <label for="{{ form.country.id_for_label }}">Country</label>{{
-          form.country }}
+          <label for="{{ form.country.id_for_label }}">Country</label>{{ form.country }}
         </div>
       </div>
       <button type="submit" class="btn btn-primary btn-block">

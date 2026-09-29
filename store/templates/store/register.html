@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% block title %}Create Account — Verdant{% endblock
-%} {% block content %}
+{% extends "base.html" %} {% block title %}Create Account — Verdant{% endblock %} {% block content %}
 <div class="container">
   <form method="post" class="form-card" novalidate>
     {% csrf_token %} {% if next %}<input
@@ -14,12 +13,10 @@
     </p>
     {% endif %}
     <div class="field">
-      <label for="{{ form.first_name.id_for_label }}">First name</label>{{
-      form.first_name }}{{ form.first_name.errors }}
+      <label for="{{ form.first_name.id_for_label }}">First name</label>{{ form.first_name }}{{ form.first_name.errors }}
     </div>
     <div class="field">
-      <label for="{{ form.username.id_for_label }}">Username</label>{{
-      form.username }}{{ form.username.errors }}
+      <label for="{{ form.username.id_for_label }}">Username</label>{{ form.username }}{{ form.username.errors }}
     </div>
     <div class="field">
       <label for="{{ form.email.id_for_label }}">Email</label>

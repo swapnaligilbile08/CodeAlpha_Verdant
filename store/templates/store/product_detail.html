@@ -1,5 +1,4 @@
-{% extends "base.html" %} {% load store_extras %} {% block title %}{{
-product.name }} — Verdant{% endblock %} {% block content %}
+{% extends "base.html" %} {% load store_extras %} {% block title %}{{ product.name }} — Verdant{% endblock %} {% block content %}
 <div class="container section">
   <div class="breadcrumb" style="margin-bottom: 24px">
     <a href="{% url 'store:home' %}">Home</a> /
@@ -52,24 +51,12 @@ product.name }} — Verdant{% endblock %} {% block content %}
             min="1"
             max="{{ product.stock }}"
             class="qty-input"
-            {%
-            if
-            not
-            product.in_stock
-            %}disabled{%
-            endif
-            %}
+            {% if not product.in_stock %}disabled{% endif %}
           />
           <button
             type="submit"
             class="btn btn-primary"
-            {%
-            if
-            not
-            product.in_stock
-            %}disabled{%
-            endif
-            %}
+            {% if not product.in_stock %}disabled{% endif %}
           >
             Add to cart
           </button>
@@ -95,8 +82,7 @@ product.name }} — Verdant{% endblock %} {% block content %}
     <div><h2>You might also like</h2></div>
   </div>
   <div class="card-grid">
-    {% for product in related %}{% include "store/_product_card.html" %}{%
-    endfor %}
+    {% for product in related %}{% include "store/_product_card.html" %}{% endfor %}
   </div>
   {% endif %}
 

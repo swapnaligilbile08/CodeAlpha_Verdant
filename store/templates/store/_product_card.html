@@ -21,13 +21,7 @@
       <button
         type="submit"
         class="quick-add"
-        {%
-        if
-        not
-        product.in_stock
-        %}disabled{%
-        endif
-        %}
+        {% if not product.in_stock %}disabled{% endif %}
       >
         {% if product.in_stock %}+ Quick add{% else %}Out of stock{% endif %}
       </button>
