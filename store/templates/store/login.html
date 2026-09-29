@@ -1,0 +1,84 @@
+{% extends "base.html" %} {% block title %}Log In — Verdant{% endblock %} {%
+block content %}
+<div class="container">
+  <form method="post" class="form-card" id="login-form" autocomplete="off">
+    {% csrf_token %} {% if next %}<input
+      type="hidden"
+      name="next"
+      value="{{ next }}"
+    />{% endif %}
+
+    <h2>Welcome back</h2>
+    {% if next %}
+    <p class="helptext" style="margin-top: -10px; margin-bottom: 18px">
+      Log in to continue to checkout.
+    </p>
+    {% endif %}
+    <div class="field">
+      <label for="{{ form.username.id_for_label }}">Username</label>
+      {{ form.username }}
+    </div>
+    <div class="field">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: baseline;
+        "
+      >
+        <label for="{{ form.password.id_for_label }}" style="margin-bottom: 0"
+          >Password</label
+        >
+        <a
+          href="{% url 'store:password_reset' %}"
+          style="font-size: 0.8rem; font-weight: 700; color: var(--gold-dark)"
+          >Forgot password?</a
+        >
+      </div>
+      <div class="password-field" style="margin-top: 6px">
+        {{ form.password }}
+        <button
+          type="button"
+          class="password-toggle-btn"
+          data-target="{{ form.password.id_for_label }}"
+          aria-label="Show password"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+            <circle cx="12" cy="12" r="3" />
+          </svg>
+        </button>
+      </div>
+    </div>
+    {% if form.non_field_errors %}
+    <ul class="errorlist">
+      {% for e in form.non_field_errors %}
+      <li>{{ e }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+    <button type="submit" class="btn btn-primary btn-block">Log in</button>
+    <p style="text-align: center; margin-top: 16px">
+      New here?
+      <a
+        href="{% url 'store:register' %}{% if next %}?next={{ next|urlencode }}{% endif %}"
+        style="color: var(--forest); font-weight: 700"
+        >Create an account</a
+      >
+    </p>
+    <noscript
+      ><p class="helptext" style="margin-top: 14px">
+        JavaScript is disabled — if the username/password fields above don't
+        accept typing, enable JavaScript to log in.
+      </p></noscript
+    >
+  </form>
+</div>
+{% endblock %}

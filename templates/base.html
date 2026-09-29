@@ -1,0 +1,376 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Verdant — Plants, Pots & Care{% endblock %}</title>
+    <meta
+      name="description"
+      content="Verdant is an online plant store — houseplants, pots & accessories, gift plants and everything you need to keep them thriving."
+    />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌿</text></svg>"
+    />
+  </head>
+  <body>
+    {% block intro %}
+    <div id="intro-splash" aria-hidden="true">
+      <div class="intro-panda-wrap">
+        <img
+          src="{% static 'img/intro-panda.jpg' %}"
+          alt=""
+          class="intro-panda"
+        />
+        <svg class="intro-leaf-float l1" viewBox="0 0 24 24">
+          <path
+            d="M12 2C7 2 3 6 3 11c5 0 9-4 9-9zM12 2c5 0 9 4 9 9-5 0-9-4-9-9z"
+            fill="#F5B301"
+          />
+        </svg>
+        <svg class="intro-leaf-float l2" viewBox="0 0 24 24">
+          <path
+            d="M12 2C7 2 3 6 3 11c5 0 9-4 9-9zM12 2c5 0 9 4 9 9-5 0-9-4-9-9z"
+            fill="#F5B301"
+          />
+        </svg>
+      </div>
+      <div class="intro-word">Verdant</div>
+      <div class="intro-sub">watering the plants, one leaf at a time...</div>
+      <div class="intro-progress"><div class="intro-progress-bar"></div></div>
+    </div>
+    {% endblock %}
+
+    <header class="site-header">
+      <div class="header-inner">
+        <a href="{% url 'store:home' %}" class="logo">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 22V12M12 12C12 7 8 3 3 3C3 8 7 12 12 12ZM12 12C12 7.5 15.5 4 20 4C20 8.5 16.5 12 12 12Z"
+              stroke="#F5B301"
+              stroke-width="1.6"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Verdant
+        </a>
+        <nav class="main-nav" aria-label="Main">
+          <a href="{% url 'store:home' %}">Home</a>
+          <a href="{% url 'store:product_list' %}">Plants</a>
+          <a href="{% url 'store:product_list' %}?category=pots-accessories"
+            >Pots &amp; Accessories</a
+          >
+          <a href="{% url 'store:product_list' %}?category=gift-plants"
+            >Gift Plants</a
+          >
+          <a href="{% url 'store:product_list' %}#care"
+            >Care &amp; Maintenance</a
+          >
+        </nav>
+        <div class="header-actions">
+          <form
+            class="search-bar"
+            action="{% url 'store:product_list' %}"
+            method="get"
+            role="search"
+          >
+            <input
+              type="search"
+              name="q"
+              placeholder="Search plants..."
+              aria-label="Search products"
+            />
+          </form>
+          <a
+            href="{% url 'store:cart_detail' %}"
+            class="icon-btn"
+            aria-label="View cart"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="1.8"
+            >
+              <circle cx="9" cy="21" r="1" />
+              <circle cx="20" cy="21" r="1" />
+              <path
+                d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+              />
+            </svg>
+            <span class="cart-badge" id="cart-count-badge"
+              >{{ cart_item_count|default:0 }}</span
+            >
+          </a>
+          {% if user.is_authenticated %}
+          <a
+            href="{% url 'store:profile' %}"
+            class="icon-btn avatar-btn"
+            aria-label="Account"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+            </svg>
+          </a>
+          <form
+            method="post"
+            action="{% url 'store:logout' %}"
+            class="logout-form"
+          >
+            {% csrf_token %}
+            <button
+              type="submit"
+              class="icon-btn"
+              aria-label="Log out"
+              title="Log out"
+            >
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#173D2E"
+                stroke-width="1.8"
+              >
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+                <polyline points="16 17 21 12 16 7" />
+                <line x1="21" y1="12" x2="9" y2="12" />
+              </svg>
+            </button>
+          </form>
+          {% else %}
+          <a
+            href="{% url 'store:login' %}?next={{ request.path|urlencode }}"
+            class="icon-btn"
+            aria-label="Log in"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+            </svg>
+          </a>
+          {% endif %}
+          <button
+            class="mobile-nav-toggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="2"
+            >
+              <path d="M3 6h18M3 12h18M3 18h18" />
+            </svg>
+          </button>
+        </div>
+      </div>
+      <nav class="mobile-nav" aria-label="Mobile">
+        <a href="{% url 'store:home' %}">Home</a>
+        <a href="{% url 'store:product_list' %}">Plants</a>
+        <a href="{% url 'store:product_list' %}?category=pots-accessories"
+          >Pots &amp; Accessories</a
+        >
+        <a href="{% url 'store:product_list' %}?category=gift-plants"
+          >Gift Plants</a
+        >
+        <a href="{% url 'store:cart_detail' %}">Cart</a>
+        {% if user.is_authenticated %}
+        <a href="{% url 'store:profile' %}" class="mobile-profile-link">
+          Profile
+        </a>
+        <a href="{% url 'store:order_history' %}">My Orders</a>
+        <form
+          method="post"
+          action="{% url 'store:logout' %}"
+          class="mobile-logout-form"
+        >
+          {% csrf_token %}
+          <button type="submit" class="mobile-logout-btn">Log out</button>
+        </form>
+        {% else %}
+        <a href="{% url 'store:login' %}?next={{ request.path|urlencode }}"
+          >Log in</a
+        >
+        <a href="{% url 'store:register' %}?next={{ request.path|urlencode }}"
+          >Register</a
+        >
+        {% endif %}
+      </nav>
+    </header>
+
+    <div class="container">
+      {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </div>
+
+    <main>{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <div class="logo">
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22V12M12 12C12 7 8 3 3 3C3 8 7 12 12 12ZM12 12C12 7.5 15.5 4 20 4C20 8.5 16.5 12 12 12Z"
+                  stroke="#F5B301"
+                  stroke-width="1.6"
+                  stroke-linejoin="round"
+                />
+              </svg>
+              Verdant
+            </div>
+            <p style="max-width: 280px">
+              Thoughtfully sourced houseplants, pots and care essentials,
+              delivered to your door.
+            </p>
+            <div class="social-icons">
+              <a href="#" aria-label="Instagram">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <rect x="3" y="3" width="18" height="18" rx="5" />
+                  <circle cx="12" cy="12" r="4" />
+                  <circle
+                    cx="17.5"
+                    cy="6.5"
+                    r="1"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </a>
+              <a href="#" aria-label="Facebook">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <path
+                    d="M15 3h-2a5 5 0 0 0-5 5v2H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"
+                  />
+                </svg>
+              </a>
+              <a href="#" aria-label="Pinterest">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path
+                    d="M9.5 20c1-3.5 2-7 2.5-9.5a2.5 2.5 0 1 1 3 2c-.5 2-1.5 4-3 4"
+                  />
+                </svg>
+              </a>
+              <a href="#" aria-label="YouTube">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <rect x="2" y="6" width="20" height="12" rx="4" />
+                  <path
+                    d="M10 9.5l5 2.5-5 2.5z"
+                    fill="currentColor"
+                    stroke="none"
+                  />
+                </svg>
+              </a>
+              <a href="mailto:hello@verdant.example" aria-label="Email">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                >
+                  <rect x="2" y="4" width="20" height="16" rx="3" />
+                  <path d="M3 6l9 7 9-7" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer-nav">
+            <h4>Shop</h4>
+            <a href="{% url 'store:product_list' %}">Plants</a>
+            <a href="{% url 'store:product_list' %}?category=pots-accessories"
+              >Pots &amp; Accessories</a
+            >
+            <a href="{% url 'store:product_list' %}?category=gift-plants"
+              >Gift Plants</a
+            >
+          </div>
+          <div class="footer-nav">
+            <h4>Account</h4>
+            <a href="{% url 'store:order_history' %}">My Orders</a>
+            <a href="{% url 'store:cart_detail' %}">Cart</a>
+            <a href="{% url 'store:profile' %}">Profile</a>
+          </div>
+          <div class="footer-nav">
+            <h4>Help</h4>
+            <a href="{% url 'store:product_list' %}#care">Plant Care</a>
+            <a href="{% url 'store:home' %}#faq">FAQ</a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          © {% now "Y" %} Verdant Plant Co. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <script src="{% static 'js/site.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load store_extras %}
+{% block title %}Checkout — Verdant{% endblock %}
+{% block content %}
+<div class="page-header"><div class="container"><h1>Checkout</h1></div></div>
+<div class="container section">
+  <div class="cart-layout">
+    <form method="post" class="form-card wide" style="margin:0;">
+      {% csrf_token %}
+      <h3>Shipping address</h3>
+      <div class="field"><label for="{{ form.full_name.id_for_label }}">Full name</label>{{ form.full_name }}{{ form.full_name.errors }}</div>
+      <div class="field"><label for="{{ form.phone.id_for_label }}">Phone</label>{{ form.phone }}{{ form.phone.errors }}</div>
+      <div class="field"><label for="{{ form.address_line1.id_for_label }}">Address line 1</label>{{ form.address_line1 }}{{ form.address_line1.errors }}</div>
+      <div class="field"><label for="{{ form.address_line2.id_for_label }}">Address line 2 (optional)</label>{{ form.address_line2 }}{{ form.address_line2.errors }}</div>
+      <div class="form-row-2">
+        <div class="field"><label for="{{ form.city.id_for_label }}">City</label>{{ form.city }}{{ form.city.errors }}</div>
+        <div class="field"><label for="{{ form.state.id_for_label }}">State</label>{{ form.state }}{{ form.state.errors }}</div>
+      </div>
+      <div class="form-row-2">
+        <div class="field"><label for="{{ form.postal_code.id_for_label }}">Postal code</label>{{ form.postal_code }}{{ form.postal_code.errors }}</div>
+        <div class="field"><label for="{{ form.country.id_for_label }}">Country</label>{{ form.country }}{{ form.country.errors }}</div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Place order (test mode)</button>
+      <p class="helptext" style="margin-top:10px;">No real payment gateway is connected — this is a demo checkout.</p>
+    </form>
+    <div class="cart-summary">
+      <h3>Order summary</h3>
+      {% for item in items %}
+      <div class="summary-row"><span>{{ item.quantity }} × {{ item.product.name }}</span><span>{{ item.line_total|currency }}</span></div>
+      {% endfor %}
+      <div class="summary-row total"><span>Total</span><span>{{ cart.subtotal|currency }}</span></div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% load store_extras %}
+<article class="product-card">
+  <div class="product-media">
+    <a href="{% url 'store:product_detail' product.slug %}">
+      <img
+        src="{{ product.image_url }}"
+        alt="{{ product.name }}"
+        loading="lazy"
+      />
+    </a>
+    {% if product.discount_percent > 0 %}
+    <span class="discount-pill">-{{ product.discount_percent }}%</span>
+    {% endif %}
+    <form
+      class="quick-add-form"
+      method="post"
+      action="{% url 'store:cart_add' product.id %}"
+    >
+      {% csrf_token %}
+      <input type="hidden" name="quantity" value="1" />
+      <button
+        type="submit"
+        class="quick-add"
+        {%
+        if
+        not
+        product.in_stock
+        %}disabled{%
+        endif
+        %}
+      >
+        {% if product.in_stock %}+ Quick add{% else %}Out of stock{% endif %}
+      </button>
+    </form>
+  </div>
+  <div class="product-info">
+    <span class="product-cat">{{ product.category.name }}</span>
+    <a href="{% url 'store:product_detail' product.slug %}" class="product-name"
+      >{{ product.name }}</a
+    >
+    <span class="stars"
+      >{{ product.avg_rating|default:product.average_rating|star_display }}<span
+        class="count"
+        >({{ product.num_reviews|default:product.review_count }})</span
+      ></span
+    >
+    <div class="price-row">
+      <span class="price">{{ product.price|currency }}</span>
+      {% if product.compare_at_price %}<span class="price-strike"
+        >{{ product.compare_at_price|currency }}</span
+      >{% endif %}
+    </div>
+  </div>
+</article>

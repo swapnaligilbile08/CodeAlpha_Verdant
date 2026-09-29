@@ -1,0 +1,49 @@
+{% extends "base.html" %} {% load store_extras %} {% block title %}Order History
+— Verdant{% endblock %} {% block content %}
+<div class="page-header">
+  <div class="container"><h1>Order history</h1></div>
+</div>
+<div class="container section">
+  {% if page_obj.object_list %} {% for order in page_obj %}
+  <div class="order-card">
+    <div>
+      <strong>Order #{{ order.id }}</strong>
+      <p style="margin: 2px 0">
+        {{ order.placed_at|date:"M j, Y" }} · {{ order.items.count }} item{{
+        order.items.count|pluralize }} · {{ order.subtotal|currency }}
+      </p>
+    </div>
+    <span class="status-badge {{ order.status }}"
+      >{{ order.get_status_display }}</span
+    >
+    <a
+      href="{% url 'store:order_detail' order.id %}"
+      class="btn btn-secondary btn-sm"
+      >View details</a
+    >
+  </div>
+  {% endfor %} {% if page_obj.paginator.num_pages > 1 %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}<a
+      href="?page={{ page_obj.previous_page_number }}"
+      >Prev</a
+    >{% endif %} {% for num in page_obj.paginator.page_range %} {% if num ==
+    page_obj.number %}<span class="current">{{ num }}</span>{% else %}<a
+      href="?page={{ num }}"
+      >{{ num }}</a
+    >{% endif %} {% endfor %} {% if page_obj.has_next %}<a
+      href="?page={{ page_obj.next_page_number }}"
+      >Next</a
+    >{% endif %}
+  </div>
+  {% endif %} {% else %}
+  <div class="empty-state">
+    <h2>No orders yet</h2>
+    <p>When you place an order, it'll show up here.</p>
+    <a href="{% url 'store:product_list' %}" class="btn btn-primary"
+      >Browse plants</a
+    >
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

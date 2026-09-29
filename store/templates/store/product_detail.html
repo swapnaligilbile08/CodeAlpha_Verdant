@@ -1,0 +1,144 @@
+{% extends "base.html" %} {% load store_extras %} {% block title %}{{
+product.name }} — Verdant{% endblock %} {% block content %}
+<div class="container section">
+  <div class="breadcrumb" style="margin-bottom: 24px">
+    <a href="{% url 'store:home' %}">Home</a> /
+    <a href="{% url 'store:product_list' %}">Plants</a> / {{ product.name }}
+  </div>
+  <div class="pd-grid">
+    <div class="pd-media">
+      <img src="{{ product.image_url }}" alt="{{ product.name }}" />
+    </div>
+    <div>
+      <span class="product-cat">{{ product.category.name }}</span>
+      <h1>{{ product.name }}</h1>
+      <span class="stars"
+        >{{ product.avg_rating|default:product.average_rating|star_display }}
+        <span class="count"
+          >{{ product.avg_rating|default:product.average_rating|floatformat:1 }}
+          · {{ product.num_reviews|default:product.review_count }} reviews</span
+        ></span
+      >
+
+      <div class="price-row" style="margin-top: 14px">
+        <span class="price" style="font-size: 1.6rem"
+          >{{ product.price|currency }}</span
+        >
+        {% if product.compare_at_price %}<span class="price-strike"
+          >{{ product.compare_at_price|currency }}</span
+        >
+        <span class="discount-pill" style="position: static"
+          >-{{ product.discount_percent }}%</span
+        >{% endif %}
+      </div>
+
+      {% if product.in_stock %}
+      <span class="stock-pill in"
+        >In stock — {{ product.stock }} available</span
+      >
+      {% else %}
+      <span class="stock-pill out">Out of stock</span>
+      {% endif %}
+
+      <form method="post" action="{% url 'store:cart_add' product.id %}">
+        {% csrf_token %}
+        <div class="qty-row">
+          <label for="qty" style="margin: 0">Qty</label>
+          <input
+            type="number"
+            name="quantity"
+            id="qty"
+            value="1"
+            min="1"
+            max="{{ product.stock }}"
+            class="qty-input"
+            {%
+            if
+            not
+            product.in_stock
+            %}disabled{%
+            endif
+            %}
+          />
+          <button
+            type="submit"
+            class="btn btn-primary"
+            {%
+            if
+            not
+            product.in_stock
+            %}disabled{%
+            endif
+            %}
+          >
+            Add to cart
+          </button>
+        </div>
+      </form>
+
+      {% if product.care_notes %}
+      <div class="pd-desc" style="border-top: none; padding-top: 0">
+        <h3>Care notes</h3>
+        <p>{{ product.care_notes|linebreaksbr }}</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="pd-desc">
+    <h2>Description</h2>
+    <p>{{ product.description|linebreaksbr }}</p>
+  </div>
+
+  {% if related %}
+  <div class="section-head" style="margin-top: 64px">
+    <div><h2>You might also like</h2></div>
+  </div>
+  <div class="card-grid">
+    {% for product in related %}{% include "store/_product_card.html" %}{%
+    endfor %}
+  </div>
+  {% endif %}
+
+  <div class="pd-desc" style="margin-top: 56px">
+    <h2>Reviews ({{ reviews|length }})</h2>
+
+    {% if review_form %}
+    <form method="post" class="form-card" style="margin: 24px 0">
+      {% csrf_token %}
+      <div class="field">
+        <label for="{{ review_form.rating.id_for_label }}">Rating</label>
+        {{ review_form.rating }} {{ review_form.rating.errors }}
+      </div>
+      <div class="field">
+        <label for="{{ review_form.comment.id_for_label }}">Your review</label>
+        {{ review_form.comment }} {{ review_form.comment.errors }}
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        Submit review
+      </button>
+    </form>
+    {% elif user_has_reviewed %}
+    <p style="margin: 16px 0">You've already reviewed this plant — thanks!</p>
+    {% elif not user.is_authenticated %}
+    <p style="margin: 16px 0">
+      <a href="{% url 'store:login' %}?next={{ request.path }}">Log in</a> to
+      leave a review.
+    </p>
+    {% endif %} {% for review in reviews %}
+    <div class="review-item">
+      <div class="head">
+        <span>{{ review.user.first_name|default:review.user.username }}</span
+        ><span class="stars">{{ review.rating|star_display }}</span>
+      </div>
+      {% if review.comment %}
+      <p>{{ review.comment }}</p>
+      {% endif %}
+      <span class="breadcrumb">{{ review.created_at|date:"M j, Y" }}</span>
+    </div>
+    {% empty %}
+    <p>No reviews yet — be the first to share your experience.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

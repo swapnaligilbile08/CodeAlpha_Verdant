@@ -1,0 +1,322 @@
+{% extends "base.html" %} {% load static store_extras %} {% block content %}
+
+<section class="hero">
+  <img
+    class="hero-bg"
+    src="https://images.unsplash.com/photo-1742540648242-c5cbccfa496f?auto=format&fit=crop&w=1800&q=70"
+    alt=""
+  />
+  <div class="hero-content">
+    <h1>Bring the outside in.</h1>
+    <p>
+      Hand-picked houseplants, pots and care essentials — grown by small
+      nurseries, delivered to your door with a 30-day thrive guarantee.
+    </p>
+    <div class="hero-ctas">
+      <a
+        href="{% url 'store:product_list' %}?sort=newest"
+        class="btn btn-primary"
+        >Shop Now</a
+      >
+      <a href="{% url 'store:product_list' %}" class="btn btn-secondary"
+        >View All Products</a
+      >
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Shop by category</h2>
+        <p>From statement monsteras to the pot that finishes the look.</p>
+      </div>
+    </div>
+    <div class="cat-grid">
+      {% for cat in categories %}
+      <a class="cat-card" href="{{ cat.get_absolute_url }}">
+        <div class="cat-thumb">
+          <img src="{{ cat.photo_url }}" alt="{{ cat.name }}" />
+        </div>
+        <span>{{ cat.name }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container about-grid">
+    <div class="about-photo">
+      <img
+        src="https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?auto=format&fit=crop&w=900&q=75"
+        alt="A plant-filled living room shelf"
+      />
+    </div>
+    <div>
+      <h2>Grown with care, chosen with you in mind</h2>
+      <p>
+        We started Verdant because too many first plants die from good
+        intentions and bad advice. Every plant we ship comes from growers we've
+        visited ourselves, with a care card written for real homes — not
+        greenhouses.
+      </p>
+      <p>
+        Not sure where to start? Our care guides walk you through light, water
+        and repotting for every plant we sell.
+      </p>
+      <div class="stat-row">
+        <div>
+          <div class="stat-num">{{ stats.categories }}</div>
+          <div class="stat-label">Categories</div>
+        </div>
+        <div>
+          <div class="stat-num">{{ stats.products }}+</div>
+          <div class="stat-label">Products</div>
+        </div>
+        <div>
+          <div class="stat-num">{{ stats.customers }}+</div>
+          <div class="stat-label">Happy customers</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="top-sellers">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Top seller products</h2>
+        <p>The plants our customers keep coming back for.</p>
+      </div>
+      <a
+        href="{% url 'store:product_list' %}?sort=rating"
+        class="btn btn-secondary btn-sm"
+        >View all</a
+      >
+    </div>
+    <div class="card-grid">
+      {% for product in featured %}{% include "store/_product_card.html" %}{%
+      endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <h2>Deals of the day</h2>
+        <p>Today's markdowns — refreshed at midnight.</p>
+      </div>
+    </div>
+    <div class="countdown-band" id="deal-countdown">
+      <span>Hurry, these prices end soon</span>
+      <div class="countdown-timers">
+        <div class="countdown-unit">
+          <div class="num" data-h>00</div>
+          <div class="lbl">HOURS</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="num" data-m>00</div>
+          <div class="lbl">MINS</div>
+        </div>
+        <div class="countdown-unit">
+          <div class="num" data-s>00</div>
+          <div class="lbl">SECS</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-grid">
+      {% for product in deals %}{% include "store/_product_card.html" %}{%
+      endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="section-head">
+      <div><h2>What our customers say</h2></div>
+    </div>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <div class="testimonial-person">
+          <span class="testimonial-avatar" aria-hidden="true">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+            </svg>
+          </span>
+          <div>
+            <div class="name">Ananya R.</div>
+            <span class="stars">★★★★★</span>
+          </div>
+        </div>
+        <blockquote>
+          First plant I haven't killed — the care card actually matched my
+          light.
+        </blockquote>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-person">
+          <span class="testimonial-avatar" aria-hidden="true">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+            </svg>
+          </span>
+          <div>
+            <div class="name">Rohit M.</div>
+            <span class="stars">★★★★★</span>
+          </div>
+        </div>
+        <blockquote>
+          Beautifully packaged gift plant, delivered right on the day I picked.
+        </blockquote>
+      </div>
+      <div class="testimonial-card">
+        <div class="testimonial-person">
+          <span class="testimonial-avatar" aria-hidden="true">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#173D2E"
+              stroke-width="1.8"
+            >
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
+            </svg>
+          </span>
+          <div>
+            <div class="name">Priya K.</div>
+            <span class="stars">★★★★☆</span>
+          </div>
+        </div>
+        <blockquote>
+          Great range of pots for every plant — shipping could be a touch
+          faster.
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section-alt" id="faq">
+  <div class="container">
+    <div class="section-head">
+      <div><h2>Frequently asked questions</h2></div>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          How fast is shipping?<span class="plus">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Most orders ship within 1–2 business days and arrive within a week,
+            depending on your location. Live plants ship in protective sleeves
+            to prevent damage in transit.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What's your return policy?<span class="plus">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            If a plant arrives damaged, contact us within 48 hours with a photo
+            and we'll send a replacement or refund — no return shipping
+            required.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          How do I know how much light my plant needs?<span class="plus"
+            >+</span
+          >
+        </button>
+        <div class="faq-answer">
+          <p>
+            Every product page lists light, water and humidity needs in plain
+            language, and a printed care card ships with every order.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Do you ship pots separately from plants?<span class="plus">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Pots and plants ship together in one box when ordered together,
+            packed so soil stays put and the pot doesn't scratch the leaves.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          What payment methods do you accept?<span class="plus">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Checkout currently runs in test mode while we finish integrating a
+            live payment gateway — no real charge is made when you place an
+            order.
+          </p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          Can I track my order?<span class="plus">+</span>
+        </button>
+        <div class="faq-answer">
+          <p>
+            Yes — every order appears in your order history with its current
+            status, from placed through delivered.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter-band">
+  <div class="container">
+    <h2>Get plant care tips in your inbox</h2>
+    <p>
+      One email a week: seasonal care reminders, new arrivals, and the
+      occasional discount.
+    </p>
+    <form
+      class="newsletter-form"
+      method="post"
+      action="{% url 'store:newsletter_signup' %}"
+    >
+      {% csrf_token %} {{ newsletter_form.email }}
+      <button type="submit" class="btn btn-primary">Subscribe</button>
+    </form>
+  </div>
+</section>
+
+{% endblock %}

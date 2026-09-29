@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% load static store_extras %} {% block title %}My
+Profile — Verdant{% endblock %} {% block content %}
+<div class="page-header">
+  <div class="container"><h1>My profile</h1></div>
+</div>
+<div class="container section">
+  <div class="cart-layout">
+    <form
+      method="post"
+      class="form-card wide"
+      style="margin: 0"
+      id="profile-form"
+    >
+      {% csrf_token %}
+      <div class="form-row-2" style="margin-top: 28px">
+        <div class="field">
+          <label for="{{ form.first_name.id_for_label }}">First name</label>{{
+          form.first_name }}
+        </div>
+        <div class="field">
+          <label for="{{ form.last_name.id_for_label }}">Last name</label>{{
+          form.last_name }}
+        </div>
+      </div>
+      <div class="field">
+        <label for="{{ form.phone.id_for_label }}">Phone</label>{{ form.phone }}
+      </div>
+      <div class="field">
+        <label for="{{ form.address_line1.id_for_label }}">Address line 1</label
+        >{{ form.address_line1 }}
+      </div>
+      <div class="field">
+        <label for="{{ form.address_line2.id_for_label }}">Address line 2</label
+        >{{ form.address_line2 }}
+      </div>
+      <div class="form-row-2">
+        <div class="field">
+          <label for="{{ form.city.id_for_label }}">City</label>{{ form.city }}
+        </div>
+        <div class="field">
+          <label for="{{ form.state.id_for_label }}">State</label>{{ form.state
+          }}
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="field">
+          <label for="{{ form.postal_code.id_for_label }}">Postal code</label>{{
+          form.postal_code }}
+        </div>
+        <div class="field">
+          <label for="{{ form.country.id_for_label }}">Country</label>{{
+          form.country }}
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">
+        Save changes
+      </button>
+    </form>
+    <div class="cart-summary">
+      <h3>Recent orders</h3>
+      {% for order in recent_orders %}
+      <div class="summary-row">
+        <a href="{% url 'store:order_detail' order.id %}"
+          >Order #{{ order.id }}</a
+        ><span>{{ order.subtotal|currency }}</span>
+      </div>
+      {% empty %}
+      <p>No orders yet.</p>
+      {% endfor %}
+      <a
+        href="{% url 'store:order_history' %}"
+        class="btn btn-secondary btn-block"
+        style="margin-top: 14px"
+        >View all orders</a
+      >
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "base.html" %} {% load store_extras %} {% block title %}Your Cart —
+Verdant{% endblock %} {% block content %}
+<div class="page-header">
+  <div class="container"><h1>Your cart</h1></div>
+</div>
+<div class="container section">
+  {% if cart.items.all %}
+  <div class="cart-layout">
+    <div>
+      {% for item in cart.items.all %}
+      <div class="cart-item">
+        <img src="{{ item.product.image_url }}" alt="{{ item.product.name }}" />
+        <div>
+          <a
+            href="{{ item.product.get_absolute_url }}"
+            style="font-weight: 700; color: var(--forest)"
+            >{{ item.product.name }}</a
+          >
+          <p style="margin: 4px 0">{{ item.product.price|currency }} each</p>
+          <form
+            method="post"
+            action="{% url 'store:cart_update' item.id %}"
+            style="display: flex; gap: 10px; align-items: center"
+          >
+            {% csrf_token %}
+            <input
+              type="number"
+              name="quantity"
+              value="{{ item.quantity }}"
+              min="1"
+              max="{{ item.product.stock }}"
+              class="qty-input"
+            />
+            <button type="submit" class="btn btn-secondary btn-sm">
+              Update
+            </button>
+          </form>
+        </div>
+        <div style="text-align: right">
+          <div class="price" style="margin-bottom: 10px">
+            {{ item.line_total|currency }}
+          </div>
+          <form method="post" action="{% url 'store:cart_remove' item.id %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary btn-sm">
+              Remove
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="cart-summary">
+      <h3>Order summary</h3>
+      <div class="summary-row">
+        <span>Items ({{ cart.total_items }})</span
+        ><span>{{ cart.subtotal|currency }}</span>
+      </div>
+      <div class="summary-row"><span>Shipping</span><span>Free</span></div>
+      <div class="summary-row total">
+        <span>Total</span><span>{{ cart.subtotal|currency }}</span>
+      </div>
+      {% if user.is_authenticated %}
+      <a
+        href="{% url 'store:checkout' %}"
+        class="btn btn-primary btn-block"
+        style="margin-top: 18px"
+        >Proceed to checkout</a
+      >
+      {% else %}
+      <div class="login-prompt">
+        <p style="margin: 0 0 10px">
+          Log in or create a free account to check out.
+        </p>
+        <a
+          href="{% url 'store:login' %}?next={% url 'store:checkout' %}"
+          class="btn btn-primary btn-block"
+          >Log in to check out</a
+        >
+        <a
+          href="{% url 'store:register' %}?next={% url 'store:checkout' %}"
+          class="btn btn-secondary btn-block"
+          style="margin-top: 10px"
+          >Create an account</a
+        >
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <circle cx="9" cy="21" r="1" />
+      <circle cx="20" cy="21" r="1" />
+      <path
+        d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"
+      />
+    </svg>
+    <h2>Your cart is empty</h2>
+    <p>Find a plant that fits your light and your life.</p>
+    <a href="{% url 'store:product_list' %}" class="btn btn-primary"
+      >Browse plants</a
+    >
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
