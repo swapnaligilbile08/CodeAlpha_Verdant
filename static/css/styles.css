@@ -4,6 +4,8 @@
    editorial-lifestyle photography, generous whitespace.
    ============================================================ */
 
+   @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
+
 :root {
   --forest: #173d2e;
   --forest-dark: #0f2a20;
@@ -31,7 +33,6 @@
   font-family: "Fraunces";
   src: local("Fraunces");
 }
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap");
 
 * {
   box-sizing: border-box;
@@ -301,6 +302,9 @@ button.icon-btn {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
+}
+html.intro-seen #intro-splash {
+  display: none;
 }
 #intro-splash .intro-word {
   font-family: var(--serif);

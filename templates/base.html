@@ -9,6 +9,16 @@
       name="description"
       content="Verdant is an online plant store — houseplants, pots & accessories, gift plants and everything you need to keep them thriving."
     />
+    <script>
+      /* Runs before first paint: if the intro already played in this tab,
+         mark <html> so the splash never renders (prevents the flash). */
+      try {
+        if (sessionStorage.getItem("verdant_intro_seen")) {
+          document.documentElement.classList.add("intro-seen");
+        }
+      } catch (e) {}
+    </script>
+    <noscript><style>#intro-splash{display:none !important}</style></noscript>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
     <link
       rel="icon"
