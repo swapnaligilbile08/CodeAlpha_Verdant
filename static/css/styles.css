@@ -1315,3 +1315,15 @@ html.intro-seen #intro-splash {
     grid-template-columns: 1fr;
   }
 }
+/* Small laptops / tablets: tighten the header so nav + search + icons fit. */
+@media (max-width: 1000px) {
+  .header-inner {
+    gap: 16px;
+  }
+  .main-nav {
+    gap: 16px;
+  }
+  .search-bar input {
+    width: 130px;
+  }
+}
