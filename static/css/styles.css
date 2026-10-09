@@ -1302,3 +1302,16 @@ html.intro-seen #intro-splash {
 .password-toggle-btn.showing {
   color: var(--gold-dark);
 }
+
+/* ---------------- responsive fixes ---------------- */
+/* Grid items default to min-width:auto, so a long nowrap line (testimonial quote)
+   stretched the whole page to ~578px on phones. Let them shrink instead. */
+.testimonial-card {
+  min-width: 0;
+}
+/* Footer: stack to one column on small phones so nothing overflows. */
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
